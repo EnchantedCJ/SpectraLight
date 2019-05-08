@@ -1,3 +1,4 @@
-*.txt
-*.png
-.idea
+.idea/
+output/
+test/
+**/__pycache__

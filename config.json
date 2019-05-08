@@ -1,0 +1,48 @@
+{
+  "gms": [
+    {
+      "name": "EW",
+      "file": "EW.txt",
+      "drawHist": true,
+      "writeSpec": true,
+      "drawSpec": true
+    },
+    {
+      "name": "NS",
+      "file": "NS.txt",
+      "drawHist": true,
+      "writeSpec": true,
+      "drawSpec": true
+    },
+    {
+      "name": "UD",
+      "file": "UD.txt",
+      "drawHist": true,
+      "writeSpec": true,
+      "drawSpec": true
+    }
+  ],
+  "spectrums": {
+    "zetas": [
+      0.05
+    ],
+    "dT": 0.01,
+    "Tmax": 6,
+    "code": {
+      "draw": true,
+      "cp": "II",
+      "gp": "2",
+      "inp": [
+        "81",
+        "82",
+        "83"
+      ]
+    },
+    "method": "fft",
+    "nfft": 32768
+  },
+  "settings": {
+    "inputDir": "./input/",
+    "outputDir": "./output/"
+  }
+}
