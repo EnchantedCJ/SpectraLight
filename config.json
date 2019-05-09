@@ -40,7 +40,8 @@
       ]
     },
     "method": "fft",
-    "nfft": 32768
+    "nfft": 32768,
+    "drawIn1": true
   },
   "settings": {
     "inputDir": "./input/",

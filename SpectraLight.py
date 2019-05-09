@@ -84,6 +84,7 @@ def draw_spectrums(gms, conf):
     print('------ 绘制反应谱 ------')
     dir = conf['settings']['outputDir']
     drawCode = conf['spectrums']['code']['draw']
+    drawIn1=conf['spectrums']['drawIn1']
     if not os.path.exists(dir):
         os.mkdir(dir)
 
@@ -95,15 +96,28 @@ def draw_spectrums(gms, conf):
         code['gp'] = conf['spectrums']['code']['gp']
         code['inp'] = conf['spectrums']['code']['inp']
 
-    for gm in gms:
-        if gm.drawSpec:
+    if drawIn1:
+        xList=[]
+        yList=[]
+        labelList=[]
+        xyLabel = ['Periods(s)', 'Sa(m/s^2)']
+        for gm in gms:
             print(gm.name)
-            xList = [spec.x for spec in gm.specs]
-            yList = [spec.y for spec in gm.specs]
-            labelList = [spec.label for spec in gm.specs]
-            xyLabel = ['Periods(s)', 'Sa(m/s^2)']
-            filename = dir + gm.name + '-spec.png'
+            xList = xList+[spec.x for spec in gm.specs]
+            yList = yList+[spec.y for spec in gm.specs]
+            labelList = labelList+[spec.label for spec in gm.specs]
+            filename = dir + 'spec.png'
             drawer.spectrum(xList, yList, labelList, xyLabel, code, filename)
+    else:
+        for gm in gms:
+            if gm.drawSpec:
+                print(gm.name)
+                xList = [spec.x for spec in gm.specs]
+                yList = [spec.y for spec in gm.specs]
+                labelList = [spec.label for spec in gm.specs]
+                xyLabel = ['Periods(s)', 'Sa(m/s^2)']
+                filename = dir + gm.name + '-spec.png'
+                drawer.spectrum(xList, yList, labelList, xyLabel, code, filename)
 
 
 def main():
