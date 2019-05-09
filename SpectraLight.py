@@ -40,10 +40,14 @@ def cal_spectrums(gms, conf):
     zetas = conf['spectrums']['zetas']
     dT = conf['spectrums']['dT']
     Tmax = conf['spectrums']['Tmax']
+    type = conf['spectrums']['type']
     method = conf['spectrums']['method']
     nfft = conf['spectrums']['nfft']
 
     # check
+    if not type in ['SA', 'SV', 'SD', 'PSA', 'PSV']:
+        print('Error: undefined spectrum type!')
+        exit(0)
     if not method in ['fft']:
         print('Error: undefined method!')
         exit(0)
@@ -54,9 +58,11 @@ def cal_spectrums(gms, conf):
             # Spectrums with different zetas
             specs = []
             for zeta in zetas:
-                Tn, Sa = solver.elastic_spectrum_fft(gm.t, gm.ag, nfft, zeta, dT, Tmax)
+                x, y = solver.elastic_spectrum_fft(type, gm.t, gm.ag, nfft, zeta, dT, Tmax)
                 label = gm.name + ' h=' + str(zeta)
-                spec = ground_motion.Spectrum(Tn, Sa, label)
+                spec = ground_motion.Spectrum(x, y, label)
+                spec.zeta = zeta
+                spec.type = type
                 specs.append(spec)
             gm.specs = specs
 
@@ -71,7 +77,7 @@ def write_spectrums(gms, conf):
         if gm.writeSpec:
             print(gm.name)
             for spec in gm.specs:
-                filename = dir + gm.name + '-spec.txt'
+                filename = dir + gm.name + '-' + spec.type + '-h' + str(spec.zeta) + '.txt'
                 with open(filename, 'w', encoding='utf-8') as f:
                     for i in range(spec.x.size):
                         f.write('{x:.2f}'.format(x=spec.x[i]))
@@ -83,30 +89,43 @@ def write_spectrums(gms, conf):
 def draw_spectrums(gms, conf):
     print('------ 绘制反应谱 ------')
     dir = conf['settings']['outputDir']
+    type = conf['spectrums']['type']
     drawCode = conf['spectrums']['code']['draw']
-    drawIn1=conf['spectrums']['drawIn1']
+    drawIn1 = conf['spectrums']['drawIn1']
     if not os.path.exists(dir):
         os.mkdir(dir)
 
     code = {'cp': 'I0',
             'gp': '1',
             'inp': []}
-    if drawCode:
+    if drawCode and type in ['SA', 'PSA']:
         code['cp'] = conf['spectrums']['code']['cp']
         code['gp'] = conf['spectrums']['code']['gp']
         code['inp'] = conf['spectrums']['code']['inp']
 
-    if drawIn1:
-        xList=[]
-        yList=[]
-        labelList=[]
+    # set x,y label
+    xyLabel = ['', '']
+    if type == 'SA':
         xyLabel = ['Periods(s)', 'Sa(m/s^2)']
+    if type == 'SV':
+        xyLabel = ['Periods(s)', 'Sv(m/s)']
+    if type == 'SD':
+        xyLabel = ['Periods(s)', 'Sd(m)']
+    if type == 'PSA':
+        xyLabel = ['Periods(s)', 'Pseudo Sa(m/s^2)']
+    if type == 'PSV':
+        xyLabel = ['Periods(s)', 'Pseudo Sv(m/s)']
+
+    if drawIn1:
+        xList = []
+        yList = []
+        labelList = []
         for gm in gms:
             print(gm.name)
-            xList = xList+[spec.x for spec in gm.specs]
-            yList = yList+[spec.y for spec in gm.specs]
-            labelList = labelList+[spec.label for spec in gm.specs]
-            filename = dir + 'spec.png'
+            xList = xList + [spec.x for spec in gm.specs]
+            yList = yList + [spec.y for spec in gm.specs]
+            labelList = labelList + [spec.label for spec in gm.specs]
+            filename = dir + type + '.png'
             drawer.spectrum(xList, yList, labelList, xyLabel, code, filename)
     else:
         for gm in gms:
@@ -115,8 +134,7 @@ def draw_spectrums(gms, conf):
                 xList = [spec.x for spec in gm.specs]
                 yList = [spec.y for spec in gm.specs]
                 labelList = [spec.label for spec in gm.specs]
-                xyLabel = ['Periods(s)', 'Sa(m/s^2)']
-                filename = dir + gm.name + '-spec.png'
+                filename = dir + gm.name + '-' + type + '.png'
                 drawer.spectrum(xList, yList, labelList, xyLabel, code, filename)
 
 

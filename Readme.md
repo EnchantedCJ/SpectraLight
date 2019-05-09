@@ -2,9 +2,9 @@
 
 Describe: Earthquake response spectrum solver and drawer
 
-Version: 0.2.0
+Version: 0.2.1
 
-Last update: 2019-05-08
+Last update: 2019-05-09
 
 Author: CJ
 
@@ -91,13 +91,21 @@ Author: CJ
       
       ​		91--9度多遇    92--9度设防    93--9度罕遇
     
-    - **method: *str***
-    
-      ​		fft
-    
-    - **nfft: *int***
-    
-      ​		快速傅里叶变换点数，应大于地震动点数，宜取2的整数次幂
+  - **type: *str***
+  
+    - **SA: **绝对加速度反应谱
+    - **SV: **相对速度反应谱
+    - **SD: **相对位移反应谱
+    - **PSA: **拟加速度反应谱
+    - **PSV: **拟速度反应谱
+  
+  - **method: *str***
+  
+    - **fft: **快速傅里叶变换
+  
+  - **nfft: *int***
+  
+    ​		快速傅里叶变换点数，应大于地震动点数，宜取2的整数次幂
 
 
 ### 3. 在`./output`查看输出结果

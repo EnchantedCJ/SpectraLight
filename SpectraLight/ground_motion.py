@@ -24,3 +24,5 @@ class Spectrum(object):
         self.x = x
         self.y = y
         self.label=label
+        self.zeta=0
+        self.type=''

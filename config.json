@@ -39,6 +39,7 @@
         "93"
       ]
     },
+    "type": "SV",
     "method": "fft",
     "nfft": 32768,
     "drawIn1": true

@@ -113,7 +113,6 @@ def spectrum(tSpecList, specList, labelList, xyLabel, code, filename):
         for i in range(len(inp)):
             ax.plot(tSpecCh, specCh[inp[i]] * 9.8, label=specChLabel[inp[i]])
 
-
     # our spectra
     for i in range(len(tSpecList)):
         ax.plot(tSpecList[i], specList[i], label=labelList[i])
@@ -124,7 +123,8 @@ def spectrum(tSpecList, specList, labelList, xyLabel, code, filename):
         ax.set_xlabel(xlabel, fontproperties=times16)
         ax.set_ylabel(ylabel, fontproperties=times16)
 
-    ax.set_xlim(0, 4)
+    Tmax = max([np.max(tSpec) for tSpec in tSpecList])
+    ax.set_xlim(0, Tmax)
     ax.set_ylim(0, np.max(ax.get_yticks()))
 
     plt.xticks(fontproperties=times14)
