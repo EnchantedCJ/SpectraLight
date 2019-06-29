@@ -1,51 +1,84 @@
 {
   "gms": [
     {
-      "name": "EW",
-      "file": "EW.txt",
-      "drawHist": true,
-      "writeSpec": true,
-      "drawSpec": true
-    },
-    {
-      "name": "NS",
-      "file": "NS.txt",
-      "drawHist": true,
-      "writeSpec": true,
-      "drawSpec": true
-    },
-    {
-      "name": "UD",
-      "file": "UD.txt",
-      "drawHist": true,
+      "name": "ELCENTRO",
+      "file": "ELCENTRO.txt",
+      "drawHist": false,
       "writeSpec": true,
       "drawSpec": true
     }
   ],
-  "spectrums": {
-    "zetas": [
-      0.05, 0.10, 0.20
-    ],
-    "dT": 0.01,
-    "Tmax": 6,
-    "code": {
-      "draw": true,
-      "cp": "II",
-      "gp": "2",
-      "inp": [
-        "81",
-        "82",
-        "83",
-        "93"
-      ]
+  "spectrums": [
+    {
+      "ID": 1,
+      "type": "PLENG",
+      "dT": 0.1,
+      "Tmax": 6,
+      "zeta": 0.05,
+      "elastoplastic": {
+        "hysteretic": "bilinear",
+        "R": 1,
+        "beta": 0
+      }
     },
-    "type": "SV",
-    "method": "fft",
-    "nfft": 32768,
-    "drawIn1": true
+    {
+      "ID": 2,
+      "type": "PLENG",
+      "dT": 0.1,
+      "Tmax": 6,
+      "zeta": 0.05,
+      "elastoplastic": {
+        "hysteretic": "bilinear",
+        "R": 2,
+        "beta": 0
+      }
+    },
+    {
+      "ID": 3,
+      "type": "PLENG",
+      "dT": 0.1,
+      "Tmax": 6,
+      "zeta": 0.05,
+      "elastoplastic": {
+        "hysteretic": "bilinear",
+        "R": 5,
+        "beta": 0
+      }
+    },
+    {
+      "ID": 4,
+      "type": "PLENG",
+      "dT": 0.1,
+      "Tmax": 6,
+      "zeta": 0.05,
+      "elastoplastic": {
+        "hysteretic": "bilinear",
+        "R": 10,
+        "beta": 0
+      }
+    }
+  ],
+  "code": {
+    "draw": false,
+    "cp": "II",
+    "gp": "2",
+    "inp": [
+      "81",
+      "82",
+      "83",
+      "93"
+    ]
   },
   "settings": {
     "inputDir": "./input/",
-    "outputDir": "./output/"
+    "outputDir": "./output/",
+    "method": "cdm",
+    "nfft": 32768,
+    "drawIn1": {
+      "name": "all_spectrums-elcentro-eng-beta0",
+      "draw": true,
+      "xlabel": "Periods (s)",
+      "ylabel": "Potential Energy"
+    }
   }
 }

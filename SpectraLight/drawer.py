@@ -29,8 +29,8 @@ def history(tHist, hist, label, filename):
     ax = fig.add_subplot(111)
     ax.plot(tHist, hist, zorder=-5, label=label)
     ax.set_axisbelow(True)
-    ax.set_xlabel('Time(s)', fontproperties=times16, labelpad=130)
-    ax.set_ylabel('Acceleration(m/s^2)', fontproperties=times16)
+    ax.set_xlabel('Time (s)', fontproperties=times16, labelpad=130)
+    ax.set_ylabel('Acceleration (m/s^2)', fontproperties=times16)
     ax.set_xlim(0, np.max(ax.get_xticks()))
     lim_y1 = int(max(np.max(ax.get_yticks()), abs(np.min(ax.get_yticks()))))
     ax.set_ylim(-lim_y1, lim_y1)
@@ -124,6 +124,7 @@ def spectrum(tSpecList, specList, labelList, xyLabel, code, filename):
         ax.set_ylabel(ylabel, fontproperties=times16)
 
     Tmax = max([np.max(tSpec) for tSpec in tSpecList])
+    Tmax = min(Tmax, 6)  # Tmax cannot larger than 6s
     ax.set_xlim(0, Tmax)
     ax.set_ylim(0, np.max(ax.get_yticks()))
 
